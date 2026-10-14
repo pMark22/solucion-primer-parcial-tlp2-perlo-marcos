@@ -14,23 +14,17 @@ export const ProjectTechnologyModel = sequelize.define(
     // TODO: 2. project_id: entero, obligatorio, clave foránea hacia Project.
     project_id: {
       type: DataTypes.INTEGER,
-      foreignKey: user_id,
-      allowNull: true,
+      allowNull: false,
     },
     // TODO: 3. technology_id: entero, obligatorio, clave foránea hacia Technology.
     technology_id: {
       type: DataTypes.INTEGER,
-      foreignKey: technology_id,
-      allowNull: true,
+      allowNull: false,
     },
   },
   {
     // TODO: 4. Desactivar las columnas createdAt y updatedAt.
-
-    tableName: "users",
-    createdAt: "created_at",
-    updatedAt: "updated_at",
-    deletedAt: "deleted_at",
-    paranoid: true,
+    timestamps: false,
+    tableName: "project_technologies",
   },
 );
