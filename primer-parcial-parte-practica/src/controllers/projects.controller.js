@@ -10,7 +10,20 @@ export const createProject = async (req, res) => {
   try {
     // TODO: 1. Crear el project con los datos del body que ya pasaron la validación.
     // ? Revisar de dónde debe salir el leader del proyecto.
+    const { code, name, description, status, start_date, budget } = req.body;
+
+    const project = await ProjectModel.create({
+      code,
+      name,
+      description,
+      status,
+      start_date,
+      budget,
+      leader_id: req.user.id,
+    });
+
     // TODO: 2. Asociar al project las technologies recibidas.
+
     // TODO: 3. Responder con código 201 y el project con sus technologies y su leader.
   } catch (error) {
     console.log(error);
