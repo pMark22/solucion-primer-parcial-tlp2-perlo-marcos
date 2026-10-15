@@ -42,8 +42,22 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     // TODO: 1. Buscar el user por email y comparar la password (comparePassword).
+    const { email, password } = req.body;
+
+    const user = await UserModel.findOne({ where: { email } });
+    if (!user) {
+      return res.status(401).json({ msg: "Credenciales inválidas" });
+    }
+
+    const isMatch = await comparePassword(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ msg: "Credenciales inválidas" });
+    }
+
     // TODO: 2. Firmar un JWT con el id y el role del user (signToken).
+
     // TODO: 3. Guardar el token en una cookie httpOnly llamada "token", responder con código 200 y un mensaje de éxito.
+
     // ? Considerar qué mensaje devolver ante credenciales inválidas.
   } catch (error) {
     console.log(error);
