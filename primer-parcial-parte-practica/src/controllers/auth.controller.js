@@ -6,7 +6,21 @@ import { signToken } from "../helpers/jwt.helper.js";
 export const register = async (req, res) => {
   try {
     // TODO: 1. Hashear la password antes de guardarla (hashPassword).
+    const hashedPassword = await hashPassword(password);
     // TODO: 2. Crear el user y su profile asociado.
+    const user = await UserModel.create({
+      username,
+      email,
+      password: hashedPassword,
+    });
+
+    const profile = await ProfileModel.create({
+      employee_number,
+      first_name,
+      last_name,
+      phone,
+      user_id: user.id,
+    });
     // TODO: 3. Responder con código 201, un mensaje de éxito y devolver el usuario sin la password.
   } catch (error) {
     console.log(error);
