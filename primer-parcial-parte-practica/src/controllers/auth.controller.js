@@ -56,7 +56,18 @@ export const login = async (req, res) => {
 
     // TODO: 2. Firmar un JWT con el id y el role del user (signToken).
 
+    const token = signToken({ id: user.id, role: user.role });
+
     // TODO: 3. Guardar el token en una cookie httpOnly llamada "token", responder con código 200 y un mensaje de éxito.
+
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+      })
+      .status(200)
+      .json({ msg: "Inicio de sesión exitoso" });
 
     // ? Considerar qué mensaje devolver ante credenciales inválidas.
   } catch (error) {
