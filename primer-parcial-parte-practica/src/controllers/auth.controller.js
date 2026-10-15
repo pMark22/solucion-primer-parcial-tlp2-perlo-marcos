@@ -79,6 +79,7 @@ export const login = async (req, res) => {
 export const logout = async (_req, res) => {
   try {
     // TODO: 1. Eliminar la cookie "token" y responder con código 204 sin devolver ningun mensaje.
+    res.clearCookie("token").status(204).send();
   } catch (error) {
     console.log(error);
     return res.status(500).json({ msg: "Error interno del servidor" });
