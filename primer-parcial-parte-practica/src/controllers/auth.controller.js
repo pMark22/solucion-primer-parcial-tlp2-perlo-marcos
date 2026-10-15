@@ -22,6 +22,17 @@ export const register = async (req, res) => {
       user_id: user.id,
     });
     // TODO: 3. Responder con código 201, un mensaje de éxito y devolver el usuario sin la password.
+
+    //se devuelve el usuario sin contraseña
+    const { password: passwordGuardada, ...userSinPassword } = user.toJSON();
+
+    return res.status(201).json({
+      msg: "Usuario registrado correctamente",
+      user: {
+        ...userSinPassword,
+        profile,
+      },
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ msg: "Error interno del servidor" });
