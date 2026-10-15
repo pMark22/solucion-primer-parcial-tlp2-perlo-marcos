@@ -23,8 +23,28 @@ export const createProject = async (req, res) => {
     });
 
     // TODO: 2. Asociar al project las technologies recibidas.
+    const { technologies } = req.body;
 
+    if (technologies && technologies.length > 0) {
+      await project.setTechnologies(technologies);
+    }
     // TODO: 3. Responder con código 201 y el project con sus technologies y su leader.
+    const projectCreated = await ProjectModel.findByPk(project.id, {
+      include: [
+        {
+          model: UserModel,
+          as: "leader",
+          attributes: { exclude: ["password"] },
+        },
+        {
+          model: TechnologyModel,
+          as: "technologies",
+          through: { attributes: [] },
+        },
+      ],
+    });
+
+    return res.status(201).json(projectCreated);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ msg: "Error interno del servidor" });
