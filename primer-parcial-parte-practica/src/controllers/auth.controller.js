@@ -5,6 +5,15 @@ import { signToken } from "../helpers/jwt.helper.js";
 
 export const register = async (req, res) => {
   try {
+    const {
+      username,
+      email,
+      password,
+      employee_number,
+      first_name,
+      last_name,
+      phone,
+    } = req.body;
     // TODO: 1. Hashear la password antes de guardarla (hashPassword).
     const hashedPassword = await hashPassword(password);
     // TODO: 2. Crear el user y su profile asociado.
@@ -79,7 +88,14 @@ export const login = async (req, res) => {
 export const logout = async (_req, res) => {
   try {
     // TODO: 1. Eliminar la cookie "token" y responder con código 204 sin devolver ningun mensaje.
-    res.clearCookie("token").status(204).send();
+    res
+      .clearCookie("token", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+      })
+      .status(204)
+      .send();
   } catch (error) {
     console.log(error);
     return res.status(500).json({ msg: "Error interno del servidor" });
