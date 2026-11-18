@@ -23,7 +23,7 @@ export const ProjectModel = sequelize.define("Project", {
   },
   // TODO: 4. status: ENUM con los valores planning, in_progress, paused y finished; obligatorio y con planning como valor por defecto.
   status: {
-    type: DataTypes.ENUM("in_progress", "paused", "finished"),
+    type: DataTypes.ENUM("planning", "in_progress", "paused", "finished"),
     allowNull: false,
     defaultValue: "planning",
   },
@@ -44,5 +44,9 @@ export const ProjectModel = sequelize.define("Project", {
   leader_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: "Users",
+      key: "id",
+    },
   },
 });
